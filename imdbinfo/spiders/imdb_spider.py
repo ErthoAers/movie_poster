@@ -54,6 +54,7 @@ class ImdbSpider(scrapy.Spider):
         return re.search("(nm[0-9]{7})", url).group()
     
     def parse(self, response):
+        print("********** %s **********" % self.get_movie_id_from_url(response.url))
         item = ImdbinfoItem()
         item['movie_imdb_link'] = response.url
 
