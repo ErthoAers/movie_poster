@@ -2,7 +2,7 @@ import sys, os
 import urllib.request
 import json, csv
 
-def process_url_info():
+def processor():
     print("********** Download IMDb basic data ***********")
     url = 'https://datasets.imdbws.com/title.basics.tsv.gz'
     name = 'title.basics.tsv.gz'
@@ -43,4 +43,4 @@ def process_url_info():
     sys.stdout.write("\rProcess complete, saved as %s\n\n" % (fetch_name))
 
 if __name__ == '__main__':
-    process_url_info()
+    processor()
