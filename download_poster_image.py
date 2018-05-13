@@ -7,10 +7,11 @@ def get_movie_id_from_url(url):
 
 def downloader():
     print("********** Download posters **********")
-
+    print("Loading the JSON file...")
     with open('imdb_output.json') as f:
         movies = json.load(f)
     movies_processed, i = [], 0
+    print("Loading finish.")
 
     for m in movies:
         if m['image_urls'] != []:
