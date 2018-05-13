@@ -10,15 +10,18 @@ i = 0
 def download_poster(m):
     global i
     if m['image_urls'] != []:
-        movie_num = get_movie_id_from_url(m['movie_imdb_link'])
-        with open('poster/%s.jpg' % movie_num, 'wb') as p:
-            r = requests.get(m['image_urls'][0])
-            p.write(r.content)
-        i += 1
-        if i % 1000 == 0:
-            sys.stdout.write("\r%d" % i + ' complete')
-            sys.stdout.flush()
-        return {movie_num:m}
+        try:
+            movie_num = get_movie_id_from_url(m['movie_imdb_link'])
+            with open('poster/%s.jpg' % movie_num, 'wb') as p:
+                r = requests.get(m['image_urls'][0])
+                p.write(r.content)
+            i += 1
+            if i % 1000 == 0:
+                sys.stdout.write("\r%d" % i + ' complete')
+                sys.stdout.flush()
+            return {movie_num:m}
+        except:
+            return None
     return None
 
 def downloader():
@@ -28,6 +31,7 @@ def downloader():
         movies = json.load(f)
     print("Loading finish.")
 
+    print("Download start.")
     pool = ThreadPool(16)
     movies_first_processed = pool.map(download_poster, movies)
     movies_processed = [m for m in movies_first_processed if m != None]
