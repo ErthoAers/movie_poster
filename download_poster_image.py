@@ -9,19 +9,19 @@ def get_movie_id_from_url(url):
 i = 0
 def download_poster(m):
     global i
-    if m['image_urls'] != []:
+    if m['image_urls'] != None:
         try:
             movie_num = get_movie_id_from_url(m['movie_imdb_link'])
-            with open('poster/%s.jpg' % movie_num, 'wb') as p:
-                r = requests.get(m['image_urls'][0])
-                p.write(r.content)
-            i += 1
-            if i % 1000 == 0:
-                sys.stdout.write("\r%d" % i + ' complete')
-                sys.stdout.flush()
-            return {movie_num:m}
+            r = requests.get(m['image_urls'][0])
         except:
             return None
+        with open('poster/%s.jpg' % movie_num, 'wb') as p:
+            p.write(r.content)
+        i += 1
+        if i % 100 == 0:
+            sys.stdout.write("\r%d" % i + ' complete')
+            sys.stdout.flush()
+        return {movie_num:m}
     return None
 
 def downloader():
