@@ -42,6 +42,7 @@ for m in movies:
     theme = get_theme(pix_data, max_color)
     print([[int(j) for j in list(i)] for i in list(theme)])
     themefile.write(json.dumps({film_id:[[int(j) for j in list(i)] for i in list(theme)]}) + ',\n')
+    os.system('rm -rf ./color_model/*')
     print("Film {0}: KMeans Time cost: {1}".format(film_id, round(time.process_time() - start, 6)))
     #img_palette(pix_data, theme)
 
