@@ -1,6 +1,8 @@
 from kmeans import KMeans_processor, KMeans_TF_processor
 import numpy as np
 import cv2, json, time
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 new_height = 600
 max_color = 6
@@ -31,16 +33,17 @@ def img_palette(img, theme):
     #cv2.imwrite('main%d.jpg' % num, result)
 
 themefile = open('poster_theme.json', 'w')
-str = '[\n'  
+
+themefile.write('[\n')
 for m in movies:
-    themefile.write(str)
     film_id = list(m.keys())[0]
     start = time.process_time()
     pix_data = get_pix_data(film_id, new_height)
     theme = get_theme(pix_data, max_color)
-    #print(theme)
+    print([[int(j) for j in list(i)] for i in list(theme)])
+    themefile.write(json.dumps({film_id:[[int(j) for j in list(i)] for i in list(theme)]}) + ',\n')
     print("Film {0}: KMeans Time cost: {1}".format(film_id, round(time.process_time() - start, 6)))
     #img_palette(pix_data, theme)
 
-themefile.write(']\n')
+themefile.write('{}]\n')
 themefile.close()

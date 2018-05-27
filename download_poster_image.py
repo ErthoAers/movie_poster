@@ -29,18 +29,18 @@ def downloader():
     print("Loading the JSON file...")
     with open('imdb_output.json') as f:
         movies = json.load(f)
-    print("Loading finish.")
+    print("Loading complete.\n")
 
-    print("Download start.")
+    print("Downloading posters...")
     pool = ThreadPool(16)
     movies_first_processed = pool.map(download_poster, movies)
     movies_processed = [m for m in movies_first_processed if m != None]
-    print("Download complete, saved %d posters." % (len(movies_processed)))
+    print("Download complete, saved %d posters.\n" % (len(movies_processed)))
 
     print("Saving processed imdb data...")
     with open('imdb_process.json', 'w') as f:
         json.dump(movies_processed, f)
-    print("Process complete, saved as imdb_process.json.")
+    print("Process complete, saved as imdb_process.json.\n")
 
 if __name__ == '__main__':
     downloader()

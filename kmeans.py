@@ -2,8 +2,6 @@ from sklearn.cluster import KMeans
 import numpy as np
 import tensorflow as tf
 from tensorflow.contrib import factorization
-import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 class KMeans_processor():
     def __init__(self, pix_data, max_color):
@@ -28,7 +26,7 @@ class KMeans_TF_processor():
     def quantize(self):
         sess = tf.Session()
         get_inputs = lambda: tf.train.limit_epochs(tf.convert_to_tensor(self.pix_data, dtype=np.float32), num_epochs=1)
-        print(sess.run(tf.convert_to_tensor(self.pix_data, dtype=np.float32)[0,:]))
+        #print(sess.run(tf.convert_to_tensor(self.pix_data, dtype=np.float32)[0,:]))
         cluster = factorization.KMeansClustering(
             num_clusters=self.max_color,
             initial_clusters=factorization.KMeansClustering.KMEANS_PLUS_PLUS_INIT
