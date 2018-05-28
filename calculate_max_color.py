@@ -44,7 +44,7 @@ for m in movies:
         start = time.process_time()
         pix_data = get_pix_data(film_id, new_height)
         theme = get_theme(pix_data, max_color)
-        if (theme[:, 0] == theme[:, 1]).all() and (theme[:, 1] == theme[:, 2]).all():
+        while (theme[:, 0] == theme[:, 1]).all() and (theme[:, 1] == theme[:, 2]).all():
             os.system('rm -rf ./color_model/*')
             theme = get_theme(pix_data, max_color) 
         os.system('rm -rf ./color_model/*')
@@ -53,6 +53,7 @@ for m in movies:
         print("Film {0}: KMeans Time cost: {1}".format(film_id, round(time.process_time() - start, 6)))
         #img_palette(pix_data, theme)
     except:
+        print('Error!')
         continue
 
 themefile.write('{}]\n')
