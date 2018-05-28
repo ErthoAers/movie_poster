@@ -36,15 +36,18 @@ themefile = open('poster_theme.json', 'w')
 
 themefile.write('[\n')
 for m in movies:
-    film_id = list(m.keys())[0]
-    start = time.process_time()
-    pix_data = get_pix_data(film_id, new_height)
-    theme = get_theme(pix_data, max_color)
-    print([[int(j) for j in list(i)] for i in list(theme)])
-    themefile.write(json.dumps({film_id:[[int(j) for j in list(i)] for i in list(theme)]}) + ',\n')
-    os.system('rm -rf ./color_model/*')
-    print("Film {0}: KMeans Time cost: {1}".format(film_id, round(time.process_time() - start, 6)))
-    #img_palette(pix_data, theme)
+    try:
+        film_id = list(m.keys())[0]
+        start = time.process_time()
+        pix_data = get_pix_data(film_id, new_height)
+        theme = get_theme(pix_data, max_color)
+        print([[int(j) for j in list(i)] for i in list(theme)])
+        themefile.write(json.dumps({film_id:[[int(j) for j in list(i)] for i in list(theme)]}) + ',\n')
+        os.system('rm -rf ./color_model/*')
+        print("Film {0}: KMeans Time cost: {1}".format(film_id, round(time.process_time() - start, 6)))
+        #img_palette(pix_data, theme)
+    except:
+        continue
 
 themefile.write('{}]\n')
 themefile.close()
