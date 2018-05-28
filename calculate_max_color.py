@@ -2,6 +2,7 @@ from kmeans import KMeans_processor, KMeans_TF_processor
 import numpy as np
 import cv2, json, time
 import os
+import tensorflow as tf
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 new_height = 600
@@ -35,6 +36,7 @@ def img_palette(img, theme):
 themefile = open('poster_theme.json', 'w')
 
 themefile.write('[\n')
+tf.device('/gpu:0')
 for m in movies:
     try:
         film_id = list(m.keys())[0]
