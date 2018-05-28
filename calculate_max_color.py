@@ -20,8 +20,10 @@ def get_theme(pix_data, max_color):
     theme = KMeans_TF_processor(pix_data, max_color).quantize()
     return theme.astype(np.uint8)
 
+print('Loading processed data...')
 with open('imdb_process.json') as f:
     movies = json.load(f)
+print('Done.\n')
 
 def img_palette(img, theme):
     pale = np.zeros((600, 162, 3), dtype=np.uint8)
@@ -45,6 +47,7 @@ for m in movies:
         pix_data = get_pix_data(film_id, new_height)
         theme = get_theme(pix_data, max_color)
         while (theme[:, 0] == theme[:, 1]).all() and (theme[:, 1] == theme[:, 2]).all():
+            print('Film {0} All equal. Calculate again.'.format(film_id))
             os.system('rm -rf ./color_model/*')
             theme = get_theme(pix_data, max_color) 
         os.system('rm -rf ./color_model/*')
