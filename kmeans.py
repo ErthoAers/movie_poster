@@ -26,6 +26,7 @@ class KMeans_TF_processor():
 
     def quantize(self):
         #sess = tf.Session()
+        tf.device('/gpu:0')
         get_inputs = lambda: tf.train.limit_epochs(tf.convert_to_tensor(self.pix_data, dtype=np.float32), num_epochs=1)
         #print(sess.run(tf.convert_to_tensor(self.pix_data, dtype=np.float32)[0,:]))
         cluster = factorization.KMeansClustering(

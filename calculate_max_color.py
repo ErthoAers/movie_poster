@@ -4,6 +4,7 @@ import cv2, json, time
 import os
 import tensorflow as tf
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 new_height = 600
 max_color = 6
