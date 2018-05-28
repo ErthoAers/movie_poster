@@ -44,6 +44,8 @@ for m in movies:
         start = time.process_time()
         pix_data = get_pix_data(film_id, new_height)
         theme = get_theme(pix_data, max_color)
+        if (theme[:, 0] == theme[:, 1]) and (theme[:, 1] == theme[:, 2]):
+            theme = get_theme(pix_data, max_color) 
         print([[int(j) for j in list(i)] for i in list(theme)])
         themefile.write(json.dumps({film_id:[[int(j) for j in list(i)] for i in list(theme)]}) + ',\n')
         os.system('rm -rf ./color_model/*')
