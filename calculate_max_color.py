@@ -6,9 +6,6 @@ import tensorflow as tf
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
-new_height = 600
-max_color = 6
-
 def get_pix_data(movie_id, new_height):
     filename = 'poster/%s.jpg' % movie_id
     img = cv2.cvtColor(cv2.imread(filename, 1), cv2.COLOR_BGR2RGB)
@@ -36,24 +33,27 @@ def img_palette(img, theme):
         result[i,:,:] = np.array(list(img[i]) + list(pale[i]), dtype=np.uint8)
     #cv2.imwrite('main%d.jpg' % num, result)
 
-themefile = open('poster_theme.json', 'w')
+if __name__ == '__main__':
+    new_height = 600
+    max_color = 6
+    themefile = open('poster_theme.json', 'w')
 
-themefile.write('[\n')
-tf.device('/gpu:0')
-for m in movies:
-    try:
-        film_id = list(m.keys())[0]
-        start = time.process_time()
-        pix_data = get_pix_data(film_id, new_height)
-        theme = get_theme(pix_data, max_color)
-        os.system('rm -rf ./color_model/*')
-        print([[int(j) for j in list(i)] for i in list(theme)])
-        themefile.write(json.dumps({film_id:[[int(j) for j in list(i)] for i in list(theme)]}) + ',\n')
-        print("Film {0}: KMeans Time cost: {1}".format(film_id, round(time.process_time() - start, 6)))
-        #img_palette(pix_data, theme)
-    except:
-        print('Error!')
-        continue
+    themefile.write('[\n')
+    tf.device('/gpu:0')
+    for m in movies:
+        try:
+            film_id = list(m.keys())[0]
+            start = time.process_time()
+            pix_data = get_pix_data(film_id, new_height)
+            theme = get_theme(pix_data, max_color)
+            os.system('rm -rf ./color_model/*')
+            print([[int(j) for j in list(i)] for i in list(theme)])
+            themefile.write(json.dumps({film_id:[[int(j) for j in list(i)] for i in list(theme)]}) + ',\n')
+            print("Film {0}: KMeans Time cost: {1}".format(film_id, round(time.process_time() - start, 6)))
+            #img_palette(pix_data, theme)
+        except:
+            print('Error!')
+            continue
 
-themefile.write('{}]\n')
-themefile.close()
+    themefile.write('{}]\n')
+    themefile.close()
