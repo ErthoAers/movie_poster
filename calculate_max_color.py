@@ -6,11 +6,10 @@ import tensorflow as tf
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
-def get_pix_data(movie_id, new_height):
+def get_pix_data(movie_id, new_width):
     filename = 'poster/%s.jpg' % movie_id
-    imgread = cv2.imread(filename, 1)
     img = cv2.cvtColor(cv2.imread(filename, 1), cv2.COLOR_BGR2RGB)
-    new_width = int(img.shape[1] * new_height / img.shape[0])
+    new_height = int(img.shape[1] * new_width / img.shape[0])
     img = cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
     return img
 
