@@ -8,7 +8,10 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 def get_pix_data(movie_id, new_height):
     filename = 'poster/%s.jpg' % movie_id
-    img = cv2.cvtColor(cv2.imread(filename, 1), cv2.COLOR_BGR2RGB)
+    try:
+        img = cv2.cvtColor(cv2.imread(filename, 1), cv2.COLOR_BGR2RGB)
+    except:
+        return np.array([])
     new_width = int(img.shape[1] * new_height / img.shape[0])
     img = cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
     return img
