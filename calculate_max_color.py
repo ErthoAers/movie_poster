@@ -8,14 +8,8 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 def get_pix_data(movie_id, new_height):
     filename = 'poster/%s.jpg' % movie_id
-    try:
-        imgread = cv2.imread(filename, 1)
-        if not imgread:
-            print("Can't open %s" % movie_id)
-            return []
-        img = cv2.cvtColor(cv2.imread(filename, 1), cv2.COLOR_BGR2RGB)
-    except:
-        return []
+    imgread = cv2.imread(filename, 1)
+    img = cv2.cvtColor(cv2.imread(filename, 1), cv2.COLOR_BGR2RGB)
     new_width = int(img.shape[1] * new_height / img.shape[0])
     img = cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
     return img
@@ -23,11 +17,6 @@ def get_pix_data(movie_id, new_height):
 def get_theme(pix_data, max_color):
     theme = KMeans_TF_processor(pix_data, max_color).quantize()
     return theme.astype(np.uint8)
-
-print('Loading processed data...')
-with open('imdb_process.json') as f:
-    movies = json.load(f)
-print('Done.\n')
 
 def img_palette(img, theme):
     pale = np.zeros((600, 162, 3), dtype=np.uint8)
@@ -41,6 +30,10 @@ def img_palette(img, theme):
     #cv2.imwrite('main%d.jpg' % num, result)
 
 if __name__ == '__main__':
+    print('Loading processed data...')
+    with open('imdb_process.json') as f:
+        movies = json.load(f)
+    print('Done.\n')
     new_height = 600
     max_color = 6
     themefile = open('poster_theme.json', 'w')
