@@ -8,8 +8,8 @@ with open('label_list.json') as f:
     label_list = json.load(f)
 
 color = {}
-for k, v in label_list['color'].items():
-    pix = np.concatenate([get_pix_data(i, 60) for i in v])
+for k, v in label_list['language'].items():
+    pix = np.concatenate([get_pix_data(i, 60) for i in v if get_pix_data(i, 60) != []])
     theme = get_theme(pix, 6)
     color[k] = [list(i) for i in theme]
     print('%s: ' + theme)
